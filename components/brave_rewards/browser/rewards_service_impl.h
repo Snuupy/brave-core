@@ -38,6 +38,11 @@
 #include "brave/components/brave_rewards/browser/extension_rewards_service_observer.h"
 #endif
 
+FORWARD_DECLARE_TEST(BraveRewardsBrowserTest,
+    InsufficientNotificationForVerifiedsInsufficientAmount);
+FORWARD_DECLARE_TEST(BraveRewardsBrowserTest,
+    InsufficientNotificationForVerifiedsSufficientAmount);
+
 namespace base {
 class OneShotTimer;
 class RepeatingTimer;
@@ -66,6 +71,7 @@ namespace brave_rewards {
 
 class PublisherInfoDatabase;
 class RewardsNotificationServiceImpl;
+class BraveRewardsBrowserTest;
 
 using GetProductionCallback = base::Callback<void(bool)>;
 using GetDebugCallback = base::Callback<void(bool)>;
@@ -218,9 +224,16 @@ class RewardsServiceImpl : public RewardsService,
   // Testing methods
   void SetLedgerEnvForTesting();
   void StartAutoContributeForTest();
+  void CheckInsufficientFundsForTesting();
+  void MaybeShowNotificationAddFundsForTesting(
+      base::OnceCallback<void(bool)> callback);
 
  private:
   FRIEND_TEST_ALL_PREFIXES(RewardsServiceTest, OnWalletProperties);
+  FRIEND_TEST_ALL_PREFIXES(::BraveRewardsBrowserTest,
+      InsufficientNotificationForVerifiedsInsufficientAmount);
+  FRIEND_TEST_ALL_PREFIXES(::BraveRewardsBrowserTest,
+      InsufficientNotificationForVerifiedsSufficientAmount);
   friend class ::BraveRewardsBrowserTest;
 
   const extensions::OneShotEvent& ready() const { return ready_; }
