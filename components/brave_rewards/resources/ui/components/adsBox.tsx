@@ -13,6 +13,8 @@ import {
   DisabledContent,
   List,
   NextContribution,
+  ModalShowAdsHistory,
+  ShowAdsHistory,
   Tokens
 } from 'brave-ui/features/rewards'
 import { Grid, Column, Select, ControlWrapper } from 'brave-ui/components'
@@ -27,14 +29,20 @@ interface Props extends Rewards.ComponentProps {
 
 interface State {
   settings: boolean
+  modalShowAdsHistory: boolean
 }
 
 class AdsBox extends React.Component<Props, State> {
   constructor (props: Props) {
     super(props)
     this.state = {
-      settings: false
+      settings: false,
+      modalShowAdsHistory: false
     }
+  }
+
+  componentDidMount () {
+    this.isShowAdsHistoryUrl()
   }
 
   componentDidUpdate (prevProps: Props) {
@@ -111,6 +119,40 @@ class AdsBox extends React.Component<Props, State> {
     this.setState({ settings: !this.state.settings })
   }
 
+  onAdsHistoryToggle = () => {
+    this.setState({
+      modalShowAdsHistory: !this.state.modalShowAdsHistory
+    })
+  }
+
+  closeShowAdsHistory = () => {
+    if (this.urlHashIs('#ads-history')) {
+      window.location.hash = ''
+    }
+    this.onAdsHistoryToggle()
+  }
+
+  urlHashIs = (hash: string) => {
+    return (
+      window &&
+      window.location &&
+      window.location.hash &&
+      window.location.hash === hash
+    )
+  }
+
+  isShowAdsHistoryUrl = () => {
+    if (this.urlHashIs('#ads-history')) {
+      this.setState({
+        modalShowAdsHistory: true
+      })
+    } else {
+      this.setState({
+        modalShowAdsHistory: false
+      })
+    }
+  }
+
   render () {
     // Default values from storage.ts
     let adsEnabled = false
@@ -139,38 +181,48 @@ class AdsBox extends React.Component<Props, State> {
     const showDisabled = firstLoad !== false || !toggle || !adsEnabled || !adsIsSupported
 
     return (
-      <Box
-        title={getLocale('adsTitle')}
-        type={'ads'}
-        description={getLocale('adsDesc')}
-        toggle={toggle}
-        checked={enabled}
-        settingsChild={this.adsSettings(enabled && enabledMain)}
-        testId={'braveAdsSettings'}
-        disabledContent={showDisabled ? this.adsDisabled() : null}
-        onToggle={this.onAdsSettingChange.bind(this, 'adsEnabled', '')}
-        settingsOpened={this.state.settings}
-        onSettingsClick={this.onSettingsToggle}
-        attachedAlert={this.adsNotSupportedAlert(adsIsSupported)}
-      >
-        <List title={getLocale('adsCurrentEarnings')}>
-          <Tokens
-            value={estimatedEarnings}
-            converted={utils.convertBalance(estimatedEarnings, walletInfo.rates)}
-          />
-        </List>
-        <List title={getLocale('adsPaymentDate')}>
-          <NextContribution>
-            {'Monthly, 5th'}
-          </NextContribution>
-        </List>
-        <List title={getLocale('adsNotificationsReceived')}>
-          <Tokens
-            value={notificationsReceived.toString()}
-            hideText={true}
-          />
-        </List>
-      </Box>
+      <>
+        <Box
+          title={getLocale('adsTitle')}
+          type={'ads'}
+          description={getLocale('adsDesc')}
+          toggle={toggle}
+          checked={enabled}
+          settingsChild={this.adsSettings(enabled && enabledMain)}
+          testId={'braveAdsSettings'}
+          disabledContent={showDisabled ? this.adsDisabled() : null}
+          onToggle={this.onAdsSettingChange.bind(this, 'adsEnabled', '')}
+          settingsOpened={this.state.settings}
+          onSettingsClick={this.onSettingsToggle}
+          attachedAlert={this.adsNotSupportedAlert(adsIsSupported)}
+        >
+          <List title={getLocale('adsCurrentEarnings')}>
+            <Tokens
+              value={estimatedEarnings}
+              converted={utils.convertBalance(estimatedEarnings, walletInfo.rates)}
+            />
+          </List>
+          <List title={getLocale('adsPaymentDate')}>
+            <NextContribution>
+              {'Monthly, 5th'}
+            </NextContribution>
+          </List>
+          <List title={getLocale('adsNotificationsReceived')}>
+            <Tokens
+              value={notificationsReceived.toString()}
+              hideText={true}
+            />
+          </List>
+          <ShowAdsHistory onAdsHistoryOpen={this.onAdsHistoryToggle}/>
+        </Box>
+        {
+          this.state.modalShowAdsHistory
+            ? <ModalShowAdsHistory
+              onClose={this.closeShowAdsHistory}
+            />
+            : null
+        }
+      </>
     )
   }
 }
