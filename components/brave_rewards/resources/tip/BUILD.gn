@@ -10,7 +10,6 @@ transpile_web_ui("tip") {
     "components/tipSite.tsx",
     "components/tipTwitterUser.tsx",
     "components/transientTipOverlay.tsx",
-    "components/tweetBox.tsx",
     "constants/tip_types.ts",
     "reducers/tip_reducer.ts",
     "reducers/index.ts",
