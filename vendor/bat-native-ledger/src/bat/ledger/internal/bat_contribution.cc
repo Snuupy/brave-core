@@ -17,6 +17,7 @@
 #include "bat/ledger/internal/bat_contribution.h"
 #include "bat/ledger/internal/ledger_impl.h"
 #include "bat/ledger/internal/rapidjson_bat_helper.h"
+#include "brave/common/random.h"
 
 using std::placeholders::_1;
 using std::placeholders::_2;
@@ -1500,7 +1501,7 @@ void BatContribution::SetReconcileTimer() {
 
 void BatContribution::SetTimer(uint32_t* timer_id, uint64_t start_timer_in) {
   if (start_timer_in == 0) {
-    start_timer_in = braveledger_bat_helper::getRandomValue(10, 60);
+    start_timer_in = brave::random::Geometric(45);
   }
 
   BLOG(ledger_, ledger::LogLevel::LOG_INFO) <<
