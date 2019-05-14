@@ -12,7 +12,7 @@
 
 #include "base/time/time.h"
 
-#include "brave/common/random.h"
+#include "brave/vendor/random/random.h"
 
 using std::placeholders::_1;
 using std::placeholders::_2;
