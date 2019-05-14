@@ -10,7 +10,7 @@
 #include "bat/confirmations/internal/unblinded_tokens.h"
 #include "bat/confirmations/internal/redeem_payment_tokens_request.h"
 
-#include "base/rand_util.h"
+#include "brave/common/random.h"
 
 using std::placeholders::_1;
 using std::placeholders::_2;
@@ -143,8 +143,8 @@ void PayoutTokens::RetryNextPayout() {
     next_retry_start_timer_in_ *= 2;
   }
 
-  auto rand_delay = base::RandInt(0, next_retry_start_timer_in_ / 10);
-  next_retry_start_timer_in_ += rand_delay;
+  auto rand_delay = brave::random::Geometric(next_retry_start_timer_in_);
+  next_retry_start_timer_in_ = rand_delay;
 
   confirmations_->StartPayingOutRedeemedTokens(next_retry_start_timer_in_);
 }

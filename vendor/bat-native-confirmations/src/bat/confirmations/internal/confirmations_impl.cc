@@ -21,6 +21,8 @@
 #include "base/json/json_writer.h"
 #include "base/time/time.h"
 
+#include "brave/common/random.h"
+
 #include "third_party/re2/src/re2/re2.h"
 
 using std::placeholders::_1;
@@ -967,13 +969,13 @@ uint64_t ConfirmationsImpl::CalculateTokenRedemptionTimeInSeconds() {
   uint64_t start_timer_in;
   if (now_in_seconds >= next_token_redemption_date_in_seconds_) {
     // Browser was launched after the token redemption date
-    start_timer_in = base::RandInt(0, 1 * base::Time::kSecondsPerMinute);
+    start_timer_in = 1 * base::Time::kSecondsPerMinute;
   } else {
     start_timer_in = next_token_redemption_date_in_seconds_ - now_in_seconds;
   }
 
-  auto rand_delay = base::RandInt(0, start_timer_in / 10);
-  start_timer_in += rand_delay;
+  auto rand_delay = brave::random::Geometric(start_timer_in);
+  start_timer_in = rand_delay;
 
   return start_timer_in;
 }

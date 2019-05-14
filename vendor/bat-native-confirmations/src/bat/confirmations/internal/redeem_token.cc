@@ -21,6 +21,8 @@
 #include "base/rand_util.h"
 #include "base/values.h"
 
+#include "brave/common/random.h"
+
 using std::placeholders::_1;
 using std::placeholders::_2;
 using std::placeholders::_3;
@@ -444,8 +446,8 @@ void RedeemToken::ScheduleNextRetryForFailedConfirmations() const {
 
 uint64_t RedeemToken::CalculateTimerForNextRetryForFailedConfirmations() const {
   auto start_timer_in = kRetryFailedConfirmationsAfterSeconds;
-  auto rand_delay = base::RandInt(0, start_timer_in / 10);
-  start_timer_in += rand_delay;
+  auto rand_delay = brave::random::Geometric(start_timer_in);
+  start_timer_in = rand_delay;
 
   return start_timer_in;
 }
