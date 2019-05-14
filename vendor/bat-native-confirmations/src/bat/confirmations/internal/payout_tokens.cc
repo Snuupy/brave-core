@@ -10,7 +10,7 @@
 #include "bat/confirmations/internal/unblinded_tokens.h"
 #include "bat/confirmations/internal/redeem_payment_tokens_request.h"
 
-#include "brave/common/random.h"
+#include "brave/vendor/random/random.h"
 
 using std::placeholders::_1;
 using std::placeholders::_2;

@@ -21,7 +21,7 @@
 #include "base/rand_util.h"
 #include "base/values.h"
 
-#include "brave/common/random.h"
+#include "brave/vendor/random/random.h"
 
 using std::placeholders::_1;
 using std::placeholders::_2;

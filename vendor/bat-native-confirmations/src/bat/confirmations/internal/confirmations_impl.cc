@@ -21,7 +21,7 @@
 #include "base/json/json_writer.h"
 #include "base/time/time.h"
 
-#include "brave/common/random.h"
+#include "brave/vendor/random/random.h"
 
 #include "third_party/re2/src/re2/re2.h"
 
