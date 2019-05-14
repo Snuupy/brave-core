@@ -14,7 +14,6 @@
 #include "base/json/json_reader.h"
 #include "base/json/json_writer.h"
 #include "base/path_service.h"
-#include "base/rand_util.h"
 #include "base/strings/string_number_conversions.h"
 #include "base/strings/string_util.h"
 #include "base/system/sys_info.h"
@@ -22,6 +21,7 @@
 #include "base/values.h"
 #include "brave/common/network_constants.h"
 #include "brave/common/pref_names.h"
+#include "brave/common/random.h"
 #include "chrome/browser/browser_process.h"
 #include "chrome/browser/first_run/first_run.h"
 #include "chrome/browser/net/system_network_context_manager.h"
@@ -106,10 +106,11 @@ void BraveReferralsService::Start() {
   // Also, periodically fetch the referral headers.
   DCHECK(!fetch_referral_headers_timer_);
   fetch_referral_headers_timer_ = std::make_unique<base::RepeatingTimer>();
+  auto avg_secs = kFetchReferralHeadersFrequency;  // period, not frequency...
+  auto delay_secs = brave::random::Geometric(avg_secs);
   fetch_referral_headers_timer_->Start(
       FROM_HERE,
-      base::TimeDelta::FromSeconds(kFetchReferralHeadersFrequency +
-                                   base::RandInt(0, 60 * 10)),
+      base::TimeDelta::FromSeconds(delay_secs),
       this, &BraveReferralsService::OnFetchReferralHeadersTimerFired);
   DCHECK(fetch_referral_headers_timer_->IsRunning());
 
