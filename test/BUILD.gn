@@ -81,6 +81,7 @@ test("brave_unit_tests") {
     "//brave/common/brave_content_client_unittest.cc",
     "//brave/common/importer/brave_mock_importer_bridge.cc",
     "//brave/common/importer/brave_mock_importer_bridge.h",
+    "//brave/common/random_unittest.cc",
     "//brave/common/shield_exceptions_unittest.cc",
     "//brave/common/tor/tor_test_constants.cc",
     "//brave/common/tor/tor_test_constants.h",
