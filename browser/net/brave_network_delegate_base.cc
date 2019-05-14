@@ -115,12 +115,14 @@ void BraveNetworkDelegateBase::InitPrefChangeRegistrarOnUI() {
   PrefService* prefs = g_browser_process->local_state();
   pref_change_registrar_.reset(new PrefChangeRegistrar());
   pref_change_registrar_->Init(prefs);
+#if BUILDFLAG(ENABLE_BRAVE_REFERRALS)
   pref_change_registrar_->Add(
       kReferralHeaders,
       base::Bind(&BraveNetworkDelegateBase::OnReferralHeadersChanged,
                  base::Unretained(this)));
   // Retrieve current referral headers, if any.
   OnReferralHeadersChanged();
+#endif
 
   PrefService* user_prefs = ProfileManager::GetActiveUserProfile()->GetPrefs();
   user_pref_change_registrar_.reset(new PrefChangeRegistrar());
@@ -149,6 +151,7 @@ void BraveNetworkDelegateBase::InitPrefChangeRegistrarOnUI() {
 
 void BraveNetworkDelegateBase::OnReferralHeadersChanged() {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
+#if BUILDFLAG(ENABLE_BRAVE_REFERRALS)
   if (const base::ListValue* referral_headers =
           g_browser_process->local_state()->GetList(kReferralHeaders)) {
     base::PostTaskWithTraits(
@@ -156,6 +159,7 @@ void BraveNetworkDelegateBase::OnReferralHeadersChanged() {
         base::Bind(&BraveNetworkDelegateBase::SetReferralHeaders,
                    base::Unretained(this), referral_headers->DeepCopy()));
   }
+#endif
 }
 
 void BraveNetworkDelegateBase::SetReferralHeaders(

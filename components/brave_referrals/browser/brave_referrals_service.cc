@@ -175,6 +175,7 @@ void BraveReferralsService::OnFetchReferralHeadersTimerFired() {
 
 void BraveReferralsService::OnReferralHeadersLoadComplete(
     std::unique_ptr<std::string> response_body) {
+#if BUILDFLAG(ENABLE_BRAVE_REFERRALS)
   int response_code = -1;
   if (referral_headers_loader_->ResponseInfo() &&
       referral_headers_loader_->ResponseInfo()->headers)
@@ -199,6 +200,7 @@ void BraveReferralsService::OnReferralHeadersLoadComplete(
     return;
   }
   pref_service_->Set(kReferralHeaders, root.value());
+#endif
 }
 
 void BraveReferralsService::OnReferralInitLoadComplete(
@@ -233,6 +235,7 @@ void BraveReferralsService::OnReferralInitLoadComplete(
     return;
   }
 
+#if BUILDFLAG(ENABLE_BRAVE_REFERRALS)
   const base::Value* headers = root->FindKey("headers");
   if (headers) {
     pref_service_->Set(kReferralHeaders, *headers);
@@ -256,6 +259,7 @@ void BraveReferralsService::OnReferralInitLoadComplete(
   task_runner_->PostTask(FROM_HERE,
                          base::Bind(&BraveReferralsService::DeletePromoCodeFile,
                                     base::Unretained(this)));
+#endif
 }
 
 void BraveReferralsService::OnReferralFinalizationCheckLoadComplete(
