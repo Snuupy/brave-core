@@ -21,7 +21,7 @@
 #include "base/values.h"
 #include "brave/common/network_constants.h"
 #include "brave/common/pref_names.h"
-#include "brave/common/random.h"
+#include "brave/vendor/random/random.h"
 #include "chrome/browser/browser_process.h"
 #include "chrome/browser/first_run/first_run.h"
 #include "chrome/browser/net/system_network_context_manager.h"
