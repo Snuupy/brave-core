@@ -17,7 +17,7 @@
 #include "bat/ledger/internal/bat_contribution.h"
 #include "bat/ledger/internal/ledger_impl.h"
 #include "bat/ledger/internal/rapidjson_bat_helper.h"
-#include "brave/common/random.h"
+#include "brave/vendor/random/random.h"
 
 using std::placeholders::_1;
 using std::placeholders::_2;
