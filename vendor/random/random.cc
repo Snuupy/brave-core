@@ -3,12 +3,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#include "brave/common/random.h"
+#include "brave/vendor/random/random.h"
 
 #include <cmath>
 
-#include "crypto/random.h"
 #include "base/bits.h"
+#include "crypto/random.h"
 
 namespace brave {
 namespace random {

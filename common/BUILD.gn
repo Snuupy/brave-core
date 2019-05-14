@@ -37,8 +37,6 @@ source_set("common") {
     "importer/imported_browser_window.h",
     "network_constants.cc",
     "network_constants.h",
-    "random.cc",
-    "random.h",
     "resource_bundle_helper.cc",
     "resource_bundle_helper.h",
     "translate_network_constants.cc",

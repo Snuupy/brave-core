@@ -3,8 +3,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#ifndef BRAVE_COMMON_RANDOM_H_
-#define BRAVE_COMMON_RANDOM_H_
+#ifndef BRAVE_VENDOR_RANDOM_RANDOM_H_
+#define BRAVE_VENDOR_RANDOM_RANDOM_H_
 
 #include <stdint.h>
 
@@ -76,4 +76,4 @@ uint64_t Geometric(uint64_t s, double p0, double period);
 }  // namespace random
 }  // namespace brave
 
-#endif  // BRAVE_COMMON_RANDOM_H_
+#endif  // BRAVE_VENDOR_RANDOM_RANDOM_H_
